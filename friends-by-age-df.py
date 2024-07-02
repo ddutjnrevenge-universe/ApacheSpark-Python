@@ -5,7 +5,7 @@ from pyspark.sql import Row
 spark = SparkSession.builder.appName("FriendsByAge").getOrCreate()
 
 friends = spark.read.option("header", "true").option("inferSchema", "true")\
-    .csv("D:/Data_Engineering/Apache_Spark/fakefriends-header.csv")
+    .csv("data/fakefriends-header.csv")
 
 
 # select("col1","col2") statement to get the columns we want

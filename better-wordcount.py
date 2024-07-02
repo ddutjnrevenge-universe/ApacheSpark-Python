@@ -6,7 +6,7 @@ def normalizeWords(text):
 conf = SparkConf().setMaster("local").setAppName("WordCount")
 sc = SparkContext(conf=conf)
 
-input = sc.textFile("D:/Data_Engineering/Apache_Spark/book.txt")
+input = sc.textFile("data/book.txt")
 words = input.flatMap(normalizeWords)
 # wordCounts = words.countByValue()
 # convert each word to a key/value pair with vallue of 1 and count all up with reduceByKey

@@ -8,7 +8,7 @@ def mapper(line):
     return Row(ID=int(fields[0]), name=str(fields[1].encode("utf-8")),\
                age=int(fields[2]), numFriends=int(fields[3]))
 
-lines = spark.sparkContext.textFile("D:/Data_Engineering/Apache_Spark/fakefriends.csv")
+lines = spark.sparkContext.textFile("data/fakefriends.csv")
 people = lines.map(mapper)
 
 schemaPeople = spark.createDataFrame(people).cache() # create a DataFrame and cache it

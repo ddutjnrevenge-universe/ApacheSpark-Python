@@ -3,7 +3,7 @@ from pyspark.sql import functions as func
 
 spark = SparkSession.builder.appName("WordCount").getOrCreate()
 
-inputDF = spark.read.text("D:/Data_Engineering/Apache_Spark/book.txt")
+inputDF = spark.read.text("data/book.txt")
 
 words = inputDF.select(func.explode(func.split(inputDF.value, "\\W+")).alias("word"))
 wordsWithoutEmptyString = words.filter(words.word != "")

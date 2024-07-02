@@ -8,7 +8,7 @@ schema = StructType([StructField("stationID", StringType(), True),\
                         StructField("measure_type", StringType(), True),\
                         StructField("temperature", FloatType(), True)])
 
-df = spark.read.schema(schema).csv("D:/Data_Engineering/Apache_Spark/1800.csv")
+df = spark.read.schema(schema).csv("data/1800.csv")
 df.printSchema()
 minTemps = df.filter(df.measure_type == "TMIN")
 stationTemps = minTemps.select("stationID", "temperature")

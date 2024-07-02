@@ -5,7 +5,7 @@ import codecs
 
 def loadMovieNames():
     movieNames = {}
-    with codecs.open("ml-100k/u.item", "r", encoding="ISO-8859-1", errors="ignore") as f:
+    with codecs.open("data/ml-100k/u.item", "r", encoding="ISO-8859-1", errors="ignore") as f:
         for line in f:
             fields = line.split("|")
             movieNames[int(fields[0])] = fields[1]
@@ -21,7 +21,7 @@ schema = StructType([StructField("userID",IntegerType(), True),\
                     StructField("rating",IntegerType(), True),\
                     StructField("timestamp",LongType(), True)])
 
-moviesDF = spark.read.option("sep","\t").schema(schema).csv("ml-100k/u.data")
+moviesDF = spark.read.option("sep","\t").schema(schema).csv("data/ml-100k/u.data")
 movieCounts = moviesDF.groupBy("movieID").count()
 
 def lookupName(movieID):

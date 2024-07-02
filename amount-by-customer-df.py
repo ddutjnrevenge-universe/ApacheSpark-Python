@@ -7,7 +7,7 @@ schema = StructType([StructField("customerID", IntegerType(), True),\
                      StructField("itemID", IntegerType(), True),\
                         StructField("amount", FloatType(), True)])
 
-df = spark.read.schema(schema).csv("D:/Data_Engineering/Apache_Spark/customer-orders.csv")
+df = spark.read.schema(schema).csv("data/customer-orders.csv")
 df.printSchema()
 
 # Group by customerID and sum up the amount round to 2 decimal places

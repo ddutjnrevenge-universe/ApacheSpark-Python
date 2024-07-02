@@ -9,7 +9,7 @@ def extractCustomerPrice(line):
     amount = float(fields[2])
     return (customerID, amount)
 
-input = sc.textFile("D:/Data_Engineering/Apache_Spark/customer-orders.csv")
+input = sc.textFile("data/customer-orders.csv")
 # map each line to a tuple of (customerID, amount)
 parsedLines = input.map(extractCustomerPrice)
 # add up the amounts for each customer

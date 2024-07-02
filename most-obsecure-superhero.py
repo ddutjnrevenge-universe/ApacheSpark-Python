@@ -11,9 +11,9 @@ schema = StructType([\
         StructField("name", StringType(), True),\
 ])
 
-names = spark.read.schema(schema).option("sep", " ").csv("Marvel-Names.txt")
+names = spark.read.schema(schema).option("sep", " ").csv("data/Marvel-Names.txt")
 
-lines = spark.read.text("Marvel-Graph.txt")
+lines = spark.read.text("data/Marvel-Graph.txt")
 
 connections = lines.withColumn("id", func.split(func.col("value"), " " )[0])\
     .withColumn("connections", func.size(func.split(func.col("value")," "))-1)\
