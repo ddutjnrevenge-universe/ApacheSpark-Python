@@ -5,9 +5,14 @@ sc = SparkContext(conf=conf)
 
 # ID of characters we wish to find the degree of separation between
 startCharacterID = 2664 #"IRON MAN/TONY STARK "
-targetCharacterID = 859 #"CAPTAIN AMERICA" - 1 step
+# targetCharacterID = 859 #"CAPTAIN AMERICA" - 1 step
 # try a more unpopular character
 # targetCharacterID = 903 #"CARLY"
+# startCharacterID = 903 #"CARLY"
+# startCharacterID = 997 #"CHAN, SARAH"
+targetCharacterID = 97 #"CH'OD"
+# startCharacterID =10678
+# targetCharacterID =10679 
 # Accumulator to signal when we find the target character during BFS traversal
 hitCounter = sc.accumulator(0)
 
@@ -97,7 +102,7 @@ def bfsReduce(data1, data2):
 # Main program
 iterationRDD = createStartingRdd()
 
-for iteration in range(0,10):
+for iteration in range(0,20):
     print("Running BFS iteration# " + str(iteration+1))
 
     # Create new vertices to darken or reducne distances in Reduce stage
@@ -112,3 +117,5 @@ for iteration in range(0,10):
     # reduce combines data for each charID, preserve darkest node andd shortest path
     iterationRDD = mapped.reduceByKey(bfsReduce)
 
+# hitCounter value is the number of paths to the target character
+# Intepretation of iteration times: The number of steps to reach the target character
