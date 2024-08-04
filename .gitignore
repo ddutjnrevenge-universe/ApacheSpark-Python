@@ -4,4 +4,7 @@
 /BigDataSpark/3_Advanced_Features/spark-warehouse/hive_dept
 /BigDataSpark/3_Advanced_Features/spark-warehouse/hive_emp
 /BigDataSpark/4_SparkStreaming/data/fraud
-/Spark_Lakehouse/data
+/Spark_Lakehouse/data/invoices
+/Spark_Lakehouse/data/text
+/Spark_Lakehouse/spark-warehouse/invoices_bz
+/Spark_Lakehouse/spark-warehouse/invoice_line_items
