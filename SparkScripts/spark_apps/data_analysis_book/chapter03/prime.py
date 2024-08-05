@@ -21,7 +21,7 @@ prime_numbers_rdd_output_path = "/opt/spark/data/results/chapter03/prime.txt"
 numbers_rdd = sc.textFile(numbers_file)
 numbers_rdd = numbers_rdd.map(lambda x: int(x))
 prime_numbers_rdd = numbers_rdd.filter(is_prime)
-prime_numbers_rdd = prime_numbers_rdd.repartition(36)
+prime_numbers_rdd = prime_numbers_rdd.repartition(12)
 print(prime_numbers_rdd.take(10))
 
 end_time = time.time()
