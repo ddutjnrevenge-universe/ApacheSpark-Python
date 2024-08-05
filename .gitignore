@@ -8,3 +8,4 @@
 /Spark_Lakehouse/data/text
 /Spark_Lakehouse/spark-warehouse/invoices_bz
 /Spark_Lakehouse/spark-warehouse/invoice_line_items
+/SparkScripts/book_data/numbers.txt
