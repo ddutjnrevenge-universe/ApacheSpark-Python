@@ -2,7 +2,8 @@ from pyspark import SparkContext
 import time
 
 # Initialize SparkContext
-sc = SparkContext("local", "Join and Filter")
+# sc = SparkContext(appName="Join and Filter Compare")
+sc = SparkContext("local", "Join and Filter Local")
 
 # Define the RDDs
 RDD_A = sc.parallelize([(1, -1), (2, 20), (3, 3), (4, 0), (5, -12)])
