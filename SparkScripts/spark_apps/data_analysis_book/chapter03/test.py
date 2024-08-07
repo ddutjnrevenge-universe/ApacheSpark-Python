@@ -1,8 +1,8 @@
-from pyspark import SparkContext
+from pyspark import SparkContext,SparkConf
 import time
-
 # Initialize SparkContext
 # sc = SparkContext(appName="Join and Filter Compare")
+conf = SparkConf().setAppName("Join and Filter Compare").set("spark.driver.host","10.88.51.141").set("spark.driver.pỏt","50353")
 sc = SparkContext("local", "Join and Filter Local")
 
 # Define the RDDs

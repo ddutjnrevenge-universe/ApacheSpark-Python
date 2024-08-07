@@ -26,4 +26,7 @@ submit:
 	docker exec da-spark-master spark-submit \
 	--master spark://spark-master:7077 \
 	--deploy-mode client \
+	--executor-memory 2g \
+	--driver-memory 2g \
+	--total-executor-cores 18 \
 	./apps/$(app)
