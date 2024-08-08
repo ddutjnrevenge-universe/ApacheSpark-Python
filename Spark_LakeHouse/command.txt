@@ -1,8 +1,0 @@
-ddutjnrevenge@Min:~$ ~/kafka_2.13-3.7.1/bin/kafka-storage.sh random-uuid
-y2UzEuhfTl-vGAGpLrORvQ
-ddutjnrevenge@Min:~$ ~/kafka_2.13-3.7.1/bin/kafka-storage.sh format -t y2UzEuhfTl-vGAGpLrORvQ -c ~/kafka_2.13-3.7.1/config/kraft/server.properties
-metaPropertiesEnsemble=MetaPropertiesEnsemble(metadataLogDir=Optional.empty, dirs={/tmp/kraft-combined-logs: EMPTY})
-Formatting /tmp/kraft-combined-logs with metadata.version 3.7-IV4.
-ddutjnrevenge@Min:~$ ~/kafka_2.13-3.7.1/bin/kafka-server-start.sh ~/kafka_2.13-3.7.1/config/kraft/server.pro
-perties
-scp /mnt/f/Data_Engineering/Apache_Spark/Spark_LakeHouse/10-kafka-to-bronze.ipynb ddutjnrevenge@Min:~/kafka_2.13-3.7.1
