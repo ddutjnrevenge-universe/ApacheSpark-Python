@@ -11,4 +11,5 @@
 /Spark_Lakehouse/spark-warehouse/customer_rewards
 /SparkScripts/book_data/numbers.txt
 /AWS_Spark_Unstructured/.idea/
+.idea/
 /AWS_Spark_Unstructured/.venv
