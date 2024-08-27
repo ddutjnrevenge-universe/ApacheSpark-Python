@@ -12,4 +12,5 @@
 /SparkScripts/book_data/numbers.txt
 /AWS_Spark_Unstructured/.idea/
 .idea/
-/AWS_Spark_Unstructured/.venv
+/AWS_Spark_Unstructured/__pycache__/
+AWS_Spark_Unstructured/config/__pycache__/
