@@ -3,7 +3,8 @@ from pyspark.sql import SparkSession
 from config.config import configuration
 from pyspark.sql.types import StructType, StructField, StringType, DoubleType, DateType
 from udf_utils import *
-from pyspark.sql.functions import udf
+from pyspark.sql.functions import udf, regexp_replace
+
 
 def define_udfs():
     return {
@@ -28,9 +29,9 @@ def define_udfs():
 
 if __name__ == "__main__":
     spark = (SparkSession.builder.appName("AWS_Spark_Unstructured")
-             .config('spark.jars.package',
-                     'org.apache.hadoop:hadoop-aws:3.3.1,'
-                     'com.amazonaws:aws-java-sdk:1.11.469')
+            #  .config('spark.jars.package',
+                    #  'org.apache.hadoop:hadoop-aws:3.3.1,'
+                    #  'com.amazonaws:aws-java-sdk:1.11.469')
              .config('spark.hadoop.fs.s3a.impl', 'org.apache.hadoop.fs.s3a.S3AFileSystem')
              .config('spark.hadoop.fs.access.key', configuration.get('AWS_ACCESS_KEY'))
              .config('spark.hadoop.fs.secret.key', configuration.get('AWS_SECRET_KEY'))
@@ -64,7 +65,7 @@ if __name__ == "__main__":
         StructField('application_location', StringType(), True)
         ])
 
-udf = define_udfs()
+udfs = define_udfs()
 
 job_bulletins_df = (spark.readStream
                     .format('text')
@@ -72,10 +73,22 @@ job_bulletins_df = (spark.readStream
                     .load(text_input_dir)
                 )
 # job_bulletins_df.show()
+job_bulletins_df = job_bulletins_df.withColumn('file_name', 
+                                               regexp_replace(udfs['extract_file_name_udf']('value'), r'\r', ' '))
+job_bulletins_df = job_bulletins_df.withColumn('value', regexp_replace('value', r'\n', ' '))
+job_bulletins_df = job_bulletins_df.withColumn('position', 
+                                               regexp_replace(udfs['extract_position_udf']('value'), r'\r', ' '))
+job_bulletins_df = job_bulletins_df.withColumn('salary_start', udfs['extract_salary_udf']('value').getField('salary_start'))
+job_bulletins_df = job_bulletins_df.withColumn('salary_end', udfs['extract_salary_udf']('value').getField('salary_end'))
+job_bulletins_df = job_bulletins_df.withColumn('start_date', udfs['extract_start_date_udf']('value'))
+job_bulletins_df = job_bulletins_df.withColumn('end_date', udfs['extract_end_date_udf']('value'))
 
-query = (job_bulletins_df.writeStream
+j_df = job_bulletins_df.select('file_name', 'start_date', 'end_date', 'salary_start', 'salary_end')
+
+query = (j_df.writeStream
                 .format('console')
                 .outputMode('append')
+                .option('truncate', 'false')
                 .start())
 
 query.awaitTermination()
