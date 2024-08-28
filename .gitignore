@@ -17,3 +17,4 @@
 /AWS_Spark_Unstructured/test
 /AWS_Spark_Unstructured/input/
 /AWS_Spark_Unstructured/.venv/
+/AWS_Spark_Unstructured/config/config.json
