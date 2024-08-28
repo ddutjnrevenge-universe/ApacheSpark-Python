@@ -13,8 +13,10 @@
 /AWS_Spark_Unstructured/.idea/
 .idea/
 /AWS_Spark_Unstructured/__pycache__/
-/AWS_Spark_Unstructured/config/__pycache__/
 /AWS_Spark_Unstructured/test
-/AWS_Spark_Unstructured/input/
 /AWS_Spark_Unstructured/.venv/
-/AWS_Spark_Unstructured/config/config.json
+/AWS_Spark_Unstructured/jobs/config/config.json
+/AWS_Spark_Unstructured/jobs/config/__pycache__/
+/AWS_Spark_Unstructured/jobs/__pycache__/
+/AWS_Spark_Unstructured/jobs/input/input_json/
+/AWS_Spark_Unstructured/jobs/input/input_text/

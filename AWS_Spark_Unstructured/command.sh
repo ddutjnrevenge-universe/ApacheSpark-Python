@@ -1,1 +1,2 @@
 spark-submit --packages org.apache.hadoop:hadoop-aws:3.3.1,com.amazonaws:aws-java-sdk:1.11.469,com.fasterxml.jackson.core:jackson-databind:2.15.3 main.py
+docker exec -it aws_spark_unstructured-spark-master-1 spark-submit --master spark://spark-master:7077 --packages org.apache.hadoop:hadoop-aws:3.3.1,com.amazonaws:aws-java-sdk:1.11.469 --py-files /opt/bitnami/spark/jobs/udf_utils.py,/opt/bitnami/spark/jobs/main.py jobs/main.py

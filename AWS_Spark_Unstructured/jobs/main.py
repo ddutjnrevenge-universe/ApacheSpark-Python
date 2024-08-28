@@ -1,14 +1,23 @@
-from numpy.ma.setup import configuration
 from pandas import DataFrame
 from pyspark.sql import SparkSession
-# from config.config import configuration
 import json
-
+import os
 from pyspark.sql.types import StructType, StructField, StringType, DoubleType, DateType
 from udf_utils import *
 from pyspark.sql.functions import udf, regexp_replace
 
-with open('config/config.json') as f:
+
+# Dynamically determine the base path
+base_path = os.path.dirname(os.path.abspath(__file__))
+config_path = os.path.join(base_path, 'config/config.json')
+jobs_path = os.path.join(base_path, 'jobs')
+
+# Check if config file exists
+if not os.path.exists(config_path):
+    raise FileNotFoundError(f"The config file was not found at: {config_path}")
+
+# Load configuration
+with open(config_path) as f:
     configuration = json.load(f)
 
 ACCESS_KEY = configuration.get('AWS_ACCESS_KEY')
@@ -49,12 +58,12 @@ if __name__ == "__main__":
                      'org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider')
              .getOrCreate())
 
-    text_input_dir = 'file:///F:/Data_Engineering/Apache_Spark/AWS_Spark_Unstructured/input/input_text'
-    json_input_dir = 'file:///F:/Data_Engineering/Apache_Spark/AWS_Spark_Unstructured/input/input_json'
-    csv_input_dir = 'file:///F:/Data_Engineering/Apache_Spark/AWS_Spark_Unstructured/input/input_csv'
-    pdf_input_dir = 'file:///F:/Data_Engineering/Apache_Spark/AWS_Spark_Unstructured/input/input_pdf'
-    video_input_dir = 'file:///F:/Data_Engineering/Apache_Spark/AWS_Spark_Unstructured/input/input_video'
-    img_input_dir = 'file:///F:/Data_Engineering/Apache_Spark/AWS_Spark_Unstructured/input/input_img'
+    text_input_dir = 'file:///opt/bitnami/spark/jobs/input/input_text'
+    json_input_dir = 'file:///opt/bitnami/spark/jobs/input/input_json'
+    csv_input_dir = 'file://input/input_csv'
+    pdf_input_dir = 'file://input/input_pdf'
+    video_input_dir = 'file://input/input_video'
+    img_input_dir = 'file://input/input_img'
 
     data_schema = StructType([
         StructField('file_name', StringType(), True),
@@ -142,7 +151,7 @@ def streamWriter(input: DataFrame, checkpointFolder, output):
             .trigger(processingTime='5 seconds')
             .start())
 
-query = streamWriter(union_df, 's3a://batch10-nguyentnh4-spark-unstructured/checkpoints/', 
-                     's3a://batch10-nguyentnh4-spark-unstructured/data/spark_unstructured')
+query = streamWriter(union_df, 's3a://spark-unstructured/checkpoints/', 
+                     's3a://spark-unstructured/data/spark_unstructured')
 
 query.awaitTermination()
