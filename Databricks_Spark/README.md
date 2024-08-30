@@ -171,7 +171,7 @@
                 + Available on premium workspace
 
 ## Access Azure Data Lake using Access Keys
-- Each storage account comes with 2 512 bit keys
+- Each storage account comes with 2 512-bit keys
 - The access key give full access to the storage account => Secure them in Azure Key Vault
 - Keys can be rotated (regenerated)
 - Databricks and Azure Data Lake recommends using the ABFS (Azure Blob File System driver)
@@ -430,3 +430,6 @@ Azure Data Factory (ADF) là một dịch vụ tích hợp dữ liệu dựa tr�
 
 
 ![azure-factory-components](images/azure-factory-components.png)
+
+# `Credits`
+**All credit to [@hhtrieu0108](https://github.com/hhtrieu0108) for this beautifully crafted, visually explained, and meticulously detailed documentation!**
