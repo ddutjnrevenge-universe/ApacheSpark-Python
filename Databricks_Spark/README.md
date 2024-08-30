@@ -431,5 +431,29 @@ Azure Data Factory (ADF) là một dịch vụ tích hợp dữ liệu dựa tr�
 
 ![azure-factory-components](images/azure-factory-components.png)
 
+## Unity Catalog
+- Is a Databricks offered unified solution for implementing data governance in the Data Lakehouse
+
+### Data Governance
+- Is the process of managing the availability, usability, integrity and security of the data present in an enterprise   
+- An enterprise should be able to
+    + Control access to the data for the users
+    + Ensures that the data is trust worthy and not misused
+    + Helps implement privacy regulations such as GDPR, CCPA etc
+
+- 4 keys data governance in unity catalog
+
+![4-keys-data-governance-in-unity-catalog](images/4-keys-data-governance-in-unity-catalog.png)
+
+- With and without unity catalog
+
+![with-unity-catalog](images/with-unity-catalog.png)
+
+![unity-catalog](images/unity-catalog.png)
+
+- Setup unity catalog
+
+![unity-catalog-setup](images/unity-catalog-setup.png)
+
 # `Credits`
 **All credit to [@hhtrieu0108](https://github.com/hhtrieu0108) for this beautifully crafted, visually explained, and meticulously detailed documentation!**
