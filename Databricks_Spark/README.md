@@ -314,7 +314,7 @@ spark.conf.set("fs.azure.sas.fixed.token.<storage_account>.dfs.core.windows.net"
 
 ![hybrid-load](images/hybird-load.png)
 
-## Delta Lakes
+# Delta Lakes
 
 ### Pitfalls of Data Lakes
 
@@ -327,25 +327,24 @@ spark.conf.set("fs.azure.sas.fixed.token.<storage_account>.dfs.core.windows.net"
 #### => Problem of Data Lake: Too slow to interactive BI reports, and there was lack of governance(quản trị) for the data
 ![data-lake](images/data_lake.png)
 
-#### Data lake ability
 ![data-lake-ability](images/data-lake-ability.png)
 
-- ACID stand for:
-    - `Atomicity`: Ensures that all parts of a transaction are completed; if any part of the transaction fails, the entire transaction is rolled back.
+### ACID:
+- `Atomicity`: Ensures that all parts of a transaction are completed; if any part of the transaction fails, the entire transaction is rolled back.
 
-    - `Consistency`: Guarantees that a transaction can only bring the database from one valid state to another, maintaining the rules and constraints of the database.
+- `Consistency`: Guarantees that a transaction can only bring the database from one valid state to another, maintaining the rules and constraints of the database.
 
-    - `Isolation`: Ensures that transactions are executed independently of one another, so intermediate states of a transaction are not visible to others.
+- `Isolation`: Ensures that transactions are executed independently of one another, so intermediate states of a transaction are not visible to others.
 
-    - `Durability`: Guarantees that once a transaction is committed, it will remain so, even in the event of a system failure.
+- `Durability`: Guarantees that once a transaction is committed, it will remain so, even in the event of a system failure.
 
-- Delta Lakes run on top of Data Lakes
+- **Delta Lakes run on top of Data Lakes**
 - Fully compatible with Apache Spark APIs
 
-#### Data Lakehouse
+### Data Lakehouse
 ![data-lakehouse-ablity](images/data-lakehouse-ability.png)
 
-#### Delta Lake
+### Delta Lake
 ![delta-lake-ablity-architecture](images/delta-lake-ablity-architecture.png)
 
 # Azure Data Factory
