@@ -321,7 +321,7 @@ spark.conf.set("fs.azure.sas.fixed.token.<storage_account>.dfs.core.windows.net"
 #### Data warehouse ability
 ![data-warehouse-ability](images/data-warehouse-ability.png)
 
-- `Delta Lake` is a project originally develpoed by Databricks and then open sourced under the Linux Foundation
+- `Delta Lake` is a project originally developed by Databricks and then open sourced under the Linux Foundation
 - Open source storage layer that brings reliability to Data Lakes
 - Provides ACID transactoins, scalable metadata handling, and it unifies streaming as well as batch
 #### => Problem of Data Lake: Too slow to interactive BI reports, and there was lack of governance(quản trị) for the data
@@ -361,77 +361,86 @@ spark.conf.set("fs.azure.sas.fixed.token.<storage_account>.dfs.core.windows.net"
 
 #### Azure Data Factory Components
 
-Azure Data Factory (ADF) là một dịch vụ tích hợp dữ liệu dựa trên đám mây từ Microsoft Azure. Nó giúp bạn xây dựng, quản lý và tự động hóa quy trình tích hợp dữ liệu. Dưới đây là các thành phần chính của Azure Data Factory:
+Azure Data Factory (ADF): Fully managed, serverless data integration solution for ingesting, preparing and transforming all of data at scale
+
+![alt text](images/adf-architecture.png)
+
 1. [Pipeline](#pipeline)
-2. [Activity](#activity)
-3. [Data Flow](#data-flow)
-4. [Dataset](#dataset)
+2. [Mapping Data Flow](#mapping-data-flows)
+3. [Activity](#activity)
+4. [Datasets](#datasets)
 5. [Linked Service](#linked-service)
-6. [Integration Runtime (IR)](#integration-runtime-ir)
-7. [Trigger](#trigger)
-8. [Control Flow](#control-flow)
-9. [Monitoring](#monitoring)
-10. [Parameter](#parameter)
+6. [Integration Runtime (IR)](#integration-runtime)
+7. [Triggers](#triggers)
+8. [Pipeline runs](#pipeline-runs)
+9. [Parameters](#parameters)
+11. [Control Flow](#control-flow)
+12. [Variables](#variables)
 
 ### Pipeline
+- logical grouping of activities that performs a unit of work
+- Together, the activities in a pipeline perform a task. 
+- manage the activities as a set instead of managing each one individually
+    - The activities in a pipeline can be chained together to operate sequentially, or they can operate independently in parallel.
+    
+`E.g. pipeline can contain a group of activities that ingests data from an Azure blob, and then runs a Hive query on an HDInsight cluster to partition the data.
 
-**Pipeline** là một tập hợp các hoạt động (activities) được kết hợp lại để thực hiện một nhiệm vụ. Pipelines cho phép bạn xác định các bước xử lý dữ liệu và quy trình tích hợp, chẳng hạn như sao chép dữ liệu, chuyển đổi dữ liệu, và chạy các quy trình ETL (Extract, Transform, Load).
+### Mapping data flows
+- create and manage graphs of data transformation logic that can use to transform any-sized data
+- Data Factory will execute your logic on a SPark cluster that spins-up and spins-down when you need it (not have to manage/maintain clusters)
 
 ### Activity
+- a processing step in a pipeline
+- ADF support `3` types of activities: data movement, data transformation, control activities
 
-**Activity** là đơn vị công việc thực hiện trong pipeline. Có nhiều loại activity, bao gồm:
+`E.g. use a copy activity to copy data from one data store to another; use a Hive activity, which runs a Hive query on an Azure HDInsight cluster, to transform or analyze your data`
 
-- **Copy Activity**: Sao chép dữ liệu từ nguồn đến đích.
-- **Data Flow Activity**: Xử lý và chuyển đổi dữ liệu trong dòng dữ liệu.
-- **Execute Pipeline Activity**: Gọi một pipeline khác từ một pipeline.
-- **Stored Procedure Activity**: Thực thi một stored procedure trên cơ sở dữ liệu.
-- **Azure Function Activity**: Gọi một Azure Function.
-- **Databricks Notebook Activity**: Chạy một notebook trên Azure Databricks.
+### Datasets
+- data structures within data stores
+- point to/ reference the data you want to use in your activitied as inputs/outputs
 
-### Data Flow
+### Linked services
+- connection strings
+- define the connection info that's needed for Data Factory to connect to external resources
 
-**Data Flow** cung cấp khả năng chuyển đổi dữ liệu trực quan. Bạn có thể xây dựng các quy trình chuyển đổi dữ liệu bằng cách sử dụng giao diện kéo và thả, mà không cần viết mã.
+-> **a linked service defines the connection to the data source, and a dataset represents the structure of the data**
 
-### Dataset
+- Used for 2 purposes:
+    - represent a **[data store](https://learn.microsoft.com/en-us/azure/data-factory/copy-activity-overview#supported-data-stores-and-formats)** (SQL Server, Oracle, file share, Azure blob storage account, etc.)
+    - represent a **[compute resource](https://learn.microsoft.com/en-us/azure/data-factory/transform-data)** that can host the execution of an actitify 
 
-**Dataset** đại diện cho dữ liệu mà bạn sẽ đọc từ hoặc ghi vào. Datasets thường liên kết với các nguồn dữ liệu hoặc đích dữ liệu cụ thể.
+### Integration Runtime
+- provide bridge between activity & linked services
+- referenced by linked service/activity & provide compute environment where the activity can be performed in the region closest possible to the target data store/compute service in the most performant way while meeting security and compliance needs
 
-### Linked Service
+### Triggers
+- unit of processing that determines when a pipeline execution needs to be kicked off
+- different types of triggers for different types of events
 
-**Linked Service** cấu hình kết nối đến các nguồn dữ liệu hoặc đích dữ liệu. Nó chứa thông tin kết nối như địa chỉ máy chủ, thông tin đăng nhập và cấu hình kết nối cần thiết để truy cập dữ liệu.
+### Pipeline runs
+- an instance of the pipelinee execution
+- typically instantiated by passing arguments to the parameters that are defined in pipelines
+- can be passed manually or within trigger definition
 
-### Integration Runtime (IR)
-
-**Integration Runtime** là môi trường thực thi cho các hoạt động trong ADF. Có ba loại IR:
-
-- **Azure Integration Runtime**: Thực thi các hoạt động trên đám mây Azure.
-- **Self-hosted Integration Runtime**: Thực thi các hoạt động trên máy chủ nội bộ của bạn.
-- **Azure-SSIS Integration Runtime**: Chạy các gói SSIS (SQL Server Integration Services) trên Azure.
-
-### Trigger
-
-**Trigger** điều khiển khi nào một pipeline được thực thi. Có các loại trigger như:
-
-- **Schedule Trigger**: Kích hoạt pipeline theo lịch trình.
-- **Event Trigger**: Kích hoạt pipeline dựa trên sự kiện (ví dụ: khi một file được tải lên một thư mục).
+### Parameters
+- key-value pairs of read-only config
+- defined in the pipeline
+- arguments for defined parameters are passed during execution from the run context that was created by a trigger/ a pipeline was executed manually - activity within the pipeline consume param values
+- A `dataset`: strongly typed parameter, a reusable/referenceable entity (i.e. an activity can reference datasets & consume the properties that are defined in dataset definiton)
+- A `linked service`: strongly typed parameter, reusable/referenceable entity that contains connection info to either data store/ compute environment 
 
 ### Control Flow
+- orchestration of pipeline activities that includes chaining activities in a seuqnece, branching, defining parameters at the pipeline level and passing arguments while invoking the pipeline eon-demand or from a trigger
+- includes custom-state passing and looping containers (for-each interators)
 
-**Control Flow** cung cấp các cấu trúc điều kiện và vòng lặp để kiểm soát cách thực thi các hoạt động trong pipeline. Ví dụ: bạn có thể sử dụng các hoạt động điều kiện (If Condition) và vòng lặp (For Each) để xác định quy trình thực hiện.
-
-### Monitoring
-
-**Monitoring** giúp theo dõi và quản lý các pipeline và hoạt động của chúng. Bạn có thể xem thông tin chi tiết về trạng thái thực thi, lỗi, và hiệu suất thông qua giao diện Azure Portal hoặc thông qua API.
-
-### Parameter
-
-**Parameter** cho phép bạn truyền dữ liệu vào pipeline, dataset, hoặc activity để làm cho chúng linh hoạt và có thể tái sử dụng hơn. Bạn có thể định nghĩa tham số trong pipeline và sử dụng chúng để điều chỉnh hành vi của pipeline.
+### Variables
+- used inside of pipeleines to store temporary values and also inconjunction with parameters to enable passing values between pipelines, data flows, and other activities
 
 
 ![azure-factory-components](images/azure-factory-components.png)
 
 ## Unity Catalog
-- Is a Databricks offered unified solution for implementing data governance in the Data Lakehouse
+- Databricks offered unified solution for implementing data governance in the Data Lakehouse
 
 ### Data Governance
 - Is the process of managing the availability, usability, integrity and security of the data present in an enterprise   
