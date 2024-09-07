@@ -9,3 +9,4 @@ ON
     t.schema_id = s.schema_id
 WHERE 
     s.name = 'SalesLT';
+-- sql query
